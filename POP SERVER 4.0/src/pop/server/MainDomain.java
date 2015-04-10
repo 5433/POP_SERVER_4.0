@@ -1,5 +1,6 @@
 package pop.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class MainDomain{
@@ -8,7 +9,8 @@ public final class MainDomain{
 	String mes = "";
 	KeywordSearchServer kss;
         ThreadSearcher threadServer;
-	static HashMap<Integer,KeywordSearchServer> serverCollector = new HashMap<>();
+	//static HashMap<Integer,KeywordSearchServer> serverCollector = new HashMap<>();
+        static ArrayList<KeywordSearchServer> serverCollector = new ArrayList<>();
         static HashMap<Integer,ThreadSearcher> searchServerCollector = new HashMap<>();
 	
 	public MainDomain(){
@@ -29,7 +31,7 @@ public final class MainDomain{
                            mes = KeywordSearchServer.temp;
                            System.out.println(mes);
                            KeywordSearchServer kes = new KeywordSearchServer(i, mes.replace("create", ""));
-                           serverCollector.put(i,kes);
+                           serverCollector.add(kes);
                        }
                    } catch (NullPointerException e) {
                        // do nothing
@@ -40,7 +42,7 @@ public final class MainDomain{
 	class NewRunThread implements Runnable{
             @Override
             public void run(){                
-                serverCollector.put(i, kss);
+                //adds itself to the ArrayList within constructor.
 		kss = new KeywordSearchServer(i," Main");
             }
 	}

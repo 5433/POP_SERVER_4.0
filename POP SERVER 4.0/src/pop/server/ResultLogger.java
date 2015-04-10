@@ -6,7 +6,7 @@ import java.util.*;
 public class ResultLogger extends Thread {
 
     public volatile String castMessage = "";
-    HashMap<Socket,ResultCommunicator> deviceIP = new HashMap<>();
+    HashMap<Socket, ResultCommunicator> deviceIP = new HashMap<>();
     private ArrayList texts = new ArrayList();
 
     //adds remote device to arraylist remoteDevices
@@ -21,14 +21,17 @@ public class ResultLogger extends Thread {
 
     //String message is added to ArrayList messages, ArrayList reader awoken by notify().
     public synchronized void postMessage() {
-        texts.add("" + MainDomain.serverCollector.size());
+        for (int i = 0; i < MainDomain.serverCollector.size(); i++) {
+            String a = MainDomain.serverCollector.get(i).name;
+            texts.add(a);
+        }
         notify();
     }
 
-    public ResultCommunicator getResultCommunicator(Socket s){
+    public ResultCommunicator getResultCommunicator(Socket s) {
         return deviceIP.get(s);
     }
-    
+
     //deletes a retrieved message from the ArrayList, then is returned.
     public synchronized String getNextElementFromMessages() throws InterruptedException {
         while (texts.size() == 0) {
@@ -45,9 +48,9 @@ public class ResultLogger extends Thread {
         Collection collection = deviceIP.values();
         Iterator it = collection.iterator();
         ResultCommunicator c;
-        while(it.hasNext()){
+        while (it.hasNext()) {
             c = (ResultCommunicator) it.next();
-            c.addToMessages(text);            
+            c.addToMessages(text);
         }
     }
 

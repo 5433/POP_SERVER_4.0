@@ -19,10 +19,11 @@ public class KeywordSearchServer {
     MessageLogger messageLogger = new MessageLogger();
     ServerSocket server;
     Communicator communicator;
-    String name = "";
+    String name = "notSet";
 
     public KeywordSearchServer(int num, String name) {
         this.name = name;
+        MainDomain.serverCollector.add(this);
         connector(num, name);
     }
 
